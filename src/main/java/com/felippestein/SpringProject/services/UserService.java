@@ -39,4 +39,13 @@ public class UserService {
         newObj.setPassword(obj.getPassword());
         return this.userRepository.save(newObj);
     }
+
+    public void delete(Long id){
+        findUserById(id);
+        try {
+            this.userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Não é possível excluir, pois há entidades relacionadas!");
+        }
+    }
 }
