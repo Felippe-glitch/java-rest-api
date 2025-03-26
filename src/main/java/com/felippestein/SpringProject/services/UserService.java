@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.felippestein.SpringProject.models.User;
-import com.felippestein.SpringProject.repositories.TaskRepository;
 import com.felippestein.SpringProject.repositories.UserRepository;
 
 @Service
@@ -15,13 +14,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private TaskRepository taskRepository;
 
     public User findUserById(Long id){
         Optional<User> user = this.userRepository.findById(id);
         return user.orElseThrow(() -> new RuntimeException(
-            "Usuário não encontrado! id:" + id
+            "Usuário não encontrado! id:" + id + ", Tipo: " + User.class.getName()
         ));
     }
 
@@ -29,7 +26,6 @@ public class UserService {
     public User create(User obj){
         obj.setId(null);
         obj = this.userRepository.save(obj);
-        this.taskRepository.saveAll(obj.getTasks());
         return obj;
     }
 
