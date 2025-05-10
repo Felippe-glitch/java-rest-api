@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.felippestein.SpringProject.models.Task;
 import com.felippestein.SpringProject.services.TaskService;
+import com.felippestein.SpringProject.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -33,6 +34,9 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id) {
         Task obj = this.taskService.findById(id);
@@ -42,6 +46,7 @@ public class TaskController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Task>> findAllByUserId(@PathVariable Long userId){
+        this.userService.findUserById(userId);
         List<Task> tasks = this.taskService.FindAllById(userId);
         return ResponseEntity.ok().body(tasks);
     }
